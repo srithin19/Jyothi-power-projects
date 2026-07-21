@@ -5,7 +5,7 @@ export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[64vh] items-center overflow-hidden px-4 pt-20 pb-10 sm:min-h-[72vh] sm:px-8 sm:pt-24 sm:pb-12"
+      className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pt-24 pb-16 sm:min-h-[72vh] sm:px-8 sm:pt-24 sm:pb-12"
     >
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_0%,rgba(247,251,255,0.22)_36%,rgba(240,247,255,0.3)_72%,rgba(255,255,255,0.14)_100%)]" />
       <div className="pointer-events-none absolute -left-16 top-1/3 h-64 w-64 rounded-full bg-[#8BC2FF]/10 blur-3xl" />
@@ -41,7 +41,16 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.14 }}
-          className="mt-6 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:mt-8 sm:text-base md:text-lg"
+          className="mt-6 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:hidden"
+        >
+          20+ years of trusted government infrastructure execution across
+          Telangana.
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.14 }}
+          className="mt-8 hidden max-w-3xl text-sm leading-relaxed text-neutral-600 sm:block sm:text-base md:text-lg"
         >
           Jyothi Power Projects is one of Telangana's trusted infrastructure
           development and electrical engineering companies with 20+ years of
