@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
+import { type ReactNode } from "react";
 
 type SectionHeadingProps = {
   eyebrow: string;
   title: string;
   teluguTitle?: string;
-  description: string;
+  description?: string;
+  rightElement?: ReactNode;
 };
 
 export function SectionHeading({
@@ -12,9 +14,10 @@ export function SectionHeading({
   title,
   teluguTitle,
   description,
+  rightElement,
 }: SectionHeadingProps) {
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className={rightElement ? "space-y-4" : "max-w-3xl space-y-4"}>
       <motion.p
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -23,14 +26,19 @@ export function SectionHeading({
       >
         {eyebrow}
       </motion.p>
-      <motion.h2
+      <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
-        className="text-3xl leading-tight tracking-tight text-[#1D1D1F] sm:text-4xl lg:text-5xl"
+        className="flex items-start justify-between gap-4"
       >
-        {title}
-      </motion.h2>
+        <h2 className="max-w-3xl text-3xl leading-tight tracking-tight text-[#1D1D1F] sm:text-4xl lg:text-5xl">
+          {title}
+        </h2>
+        {rightElement && (
+          <div className="hidden shrink-0 sm:block">{rightElement}</div>
+        )}
+      </motion.div>
       {teluguTitle && (
         <motion.p
           initial={{ opacity: 0, y: 14 }}
@@ -42,15 +50,17 @@ export function SectionHeading({
           {teluguTitle}
         </motion.p>
       )}
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ delay: 0.05 }}
-        className="text-sm text-neutral-600 sm:text-base md:text-lg"
-      >
-        {description}
-      </motion.p>
+      {description && (
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ delay: 0.05 }}
+          className="text-sm text-neutral-600 sm:text-base md:text-lg"
+        >
+          {description}
+        </motion.p>
+      )}
     </div>
   );
 }

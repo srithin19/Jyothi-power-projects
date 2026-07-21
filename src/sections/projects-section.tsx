@@ -11,7 +11,6 @@ export function ProjectsSection() {
         eyebrow="Project Gallery"
         title="Execution quality you can see at first glance."
         teluguTitle="మా ప్రాజెక్టుల నాణ్యత, మొదటి చూపులోనే స్పష్టంగా"
-        description="Apple-style cards with immersive photography from core execution categories."
       />
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {projectGallery.map((item, index) => (

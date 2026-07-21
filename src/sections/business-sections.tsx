@@ -1,5 +1,4 @@
 import { Check, ShieldCheck, Sparkles } from "lucide-react";
-import { Button } from "../components/ui/button";
 import { brands, qualityPoints, timeline } from "../data/siteData";
 import { Reveal } from "../components/ui/reveal";
 import { SectionHeading } from "../components/ui/section-heading";
@@ -45,7 +44,7 @@ export function BusinessSections() {
         </div>
       </SectionShell>
 
-      <section className="py-16 md:py-20">
+      <section className="pt-2 pb-16 md:pt-4 md:pb-20">
         <SectionShell className="py-0">
           <SectionHeading
             eyebrow="Wholesale Supply"
@@ -146,16 +145,6 @@ export function BusinessSections() {
               </p>
             </div>
           </Reveal>
-        </div>
-        <div className="mt-8">
-          <Button asChild>
-            <a
-              href="mailto:jyothipowerprojectshyd@gmail.com?subject=Company%20Profile%20Request"
-              aria-label="Request company profile PDF by email"
-            >
-              Download Company Profile
-            </a>
-          </Button>
         </div>
       </SectionShell>
     </>

@@ -31,7 +31,7 @@ export function CeoSection() {
             <blockquote className="text-xl leading-relaxed tracking-tight text-[#1D1D1F] sm:text-2xl lg:text-3xl">
               "For more than two decades, our mission has been to build reliable
               infrastructure that improves everyday life. Every project reflects
-              our commitment to quality, transparency and long-term value for
+              our commitment to quality, transparency and long term value for
               society."
             </blockquote>
             <div>

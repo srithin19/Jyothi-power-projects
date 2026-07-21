@@ -2,6 +2,7 @@ import { services, whoWeServe } from "../data/siteData";
 import { Reveal } from "../components/ui/reveal";
 import { SectionHeading } from "../components/ui/section-heading";
 import { SectionShell } from "../components/ui/section-shell";
+import telanganaLogo from "../assets/Telangana logo.png";
 
 export function ServicesSection() {
   return (
@@ -11,6 +12,15 @@ export function ServicesSection() {
         title="Government infrastructure execution with precision and scale."
         teluguTitle="ప్రభుత్వ మౌలిక వసతులకు ఖచ్చితమైన అమలు సేవలు"
         description="From lighting to civil and electrical infrastructure, we deliver end-to-end execution with strict quality controls and compliance."
+        rightElement={
+          <img
+            src={telanganaLogo}
+            alt="Telangana Government logo"
+            loading="lazy"
+            decoding="async"
+            className="h-24 w-auto sm:h-28 lg:h-32"
+          />
+        }
       />
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service, index) => (

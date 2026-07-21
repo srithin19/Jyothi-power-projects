@@ -11,7 +11,7 @@ import type {
 } from '../types/site'
 
 export const navLinks: NavLink[] = [
-  { label: 'About', href: '#about' },
+  { label: 'About', href: '#top' },
   { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
   { label: 'Impact', href: '#impact', showInNavbar: false },

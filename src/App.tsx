@@ -4,7 +4,6 @@ import { Footer } from "./components/layout/footer";
 import { Navbar } from "./components/layout/navbar";
 import { layoutClasses } from "./constants/layout";
 import { seoConfig } from "./constants/seo";
-import { AboutSection } from "./sections/about-section";
 import { HeroSection } from "./sections/hero-section";
 import { ServicesSection } from "./sections/services-section";
 
@@ -84,7 +83,6 @@ function App() {
         </div>
         <Navbar />
         <HeroSection />
-        <AboutSection />
         <ServicesSection />
         <Suspense fallback={<SectionFallback />}>
           <ProjectsSection />
