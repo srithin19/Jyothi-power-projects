@@ -48,15 +48,15 @@ export function ImpactSection() {
         teluguTitle="గ్రామాలు, సమాజం, ప్రజా వ్యవస్థలపై కొలిచే ప్రభావం"
         description="Two decades of execution translated into reliable numbers that demonstrate scale and trust."
       />
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid gap-3 sm:mt-8 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {impactStats.map((stat, idx) => (
           <Reveal key={stat.label} delay={idx * 0.025}>
-            <div className="rounded-3xl border border-black/10 bg-white p-8 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)]">
-              <p className="text-3xl font-semibold tracking-tight text-black sm:text-4xl lg:text-5xl">
+            <div className="rounded-2xl border border-black/10 bg-white p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:rounded-3xl sm:p-8">
+              <p className="text-2xl font-semibold tracking-tight text-black sm:text-4xl lg:text-5xl">
                 {(inView ? animatedValues[idx] : 0).toLocaleString("en-IN")}
                 {stat.suffix}
               </p>
-              <p className="mt-3 text-sm uppercase tracking-[0.16em] text-neutral-500">
+              <p className="mt-2 text-xs uppercase tracking-[0.14em] text-neutral-500 sm:mt-3 sm:text-sm sm:tracking-[0.16em]">
                 {stat.label}
               </p>
             </div>

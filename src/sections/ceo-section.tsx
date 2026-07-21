@@ -19,16 +19,16 @@ export function CeoSection() {
               whileInView={{ scale: 1 }}
               viewport={{ once: true, amount: 0.35 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="h-full min-h-[300px] w-full object-cover sm:min-h-[360px] lg:min-h-[480px]"
+              className="h-full min-h-[240px] w-full object-cover sm:min-h-[360px] lg:min-h-[480px]"
             />
           </div>
         </Reveal>
         <Reveal delay={0.05}>
-          <GlassCard className="space-y-6">
+          <GlassCard className="space-y-5 sm:space-y-6">
             <p className="text-sm uppercase tracking-[0.18em] text-neutral-500">
               CEO Message
             </p>
-            <blockquote className="text-xl leading-relaxed tracking-tight text-[#1D1D1F] sm:text-2xl lg:text-3xl">
+            <blockquote className="text-lg leading-relaxed tracking-tight text-[#1D1D1F] sm:text-2xl lg:text-3xl">
               "For more than two decades, our mission has been to build reliable
               infrastructure that improves everyday life. Every project reflects
               our commitment to quality, transparency and long term value for

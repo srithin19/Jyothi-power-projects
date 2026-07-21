@@ -28,10 +28,10 @@ export function ProjectsSection() {
                 style={{
                   objectPosition: item.objectPosition ?? "center center",
                 }}
-                className="h-[280px] w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-[320px] md:h-[340px] lg:h-[380px] xl:h-[420px]"
+                className="h-[230px] w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-[320px] md:h-[340px] lg:h-[380px] xl:h-[420px]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <p className="absolute bottom-5 left-5 text-xl font-medium tracking-tight text-white sm:text-2xl">
+              <p className="absolute bottom-4 left-4 text-lg font-medium tracking-tight text-white sm:bottom-5 sm:left-5 sm:text-2xl">
                 {item.title}
               </p>
             </article>

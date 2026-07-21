@@ -18,15 +18,15 @@ export function ServicesSection() {
             alt="Telangana Government logo"
             loading="lazy"
             decoding="async"
-            className="h-24 w-auto sm:h-28 lg:h-32"
+            className="h-12 w-auto sm:h-24 lg:h-32"
           />
         }
       />
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid gap-3 sm:mt-8 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service, index) => (
           <Reveal key={service} delay={index * 0.015}>
-            <article className="group rounded-3xl border border-black/10 bg-white p-6 shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(0,0,0,0.1)]">
-              <p className="text-lg font-medium tracking-tight text-[#1D1D1F]">
+            <article className="group rounded-2xl border border-black/10 bg-white px-4 py-4 shadow-[0_8px_20px_rgba(0,0,0,0.04)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] sm:rounded-3xl sm:p-6">
+              <p className="text-sm font-medium tracking-tight text-[#1D1D1F] sm:text-lg">
                 {service}
               </p>
             </article>

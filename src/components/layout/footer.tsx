@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="mx-auto mt-20 w-full max-w-6xl border-t border-black/10 px-5 py-10 text-sm text-neutral-600 sm:px-8 sm:py-12">
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 lg:col-span-1">
-          <p className="text-lg font-semibold text-black">
+          <p className="text-xs font-extrabold tracking-[0.16em] text-black uppercase sm:text-sm">
             Jyothi Power Projects
           </p>
           <p className="mt-3 leading-relaxed">Designed with Excellence.</p>

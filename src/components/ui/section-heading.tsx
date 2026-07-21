@@ -30,14 +30,12 @@ export function SectionHeading({
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
-        className="flex items-start justify-between gap-4"
+        className="flex items-start justify-between gap-3 sm:gap-4"
       >
-        <h2 className="max-w-3xl text-3xl leading-tight tracking-tight text-[#1D1D1F] sm:text-4xl lg:text-5xl">
+        <h2 className="max-w-3xl flex-1 text-xl leading-snug tracking-tight text-[#1D1D1F] sm:text-4xl sm:leading-tight lg:text-5xl">
           {title}
         </h2>
-        {rightElement && (
-          <div className="hidden shrink-0 sm:block">{rightElement}</div>
-        )}
+        {rightElement && <div className="shrink-0">{rightElement}</div>}
       </motion.div>
       {teluguTitle && (
         <motion.p

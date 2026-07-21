@@ -13,13 +13,13 @@ export function BusinessSections() {
           title="A growth journey rooted in execution quality."
           description="Milestones that define two decades of public infrastructure progress."
         />
-        <div className="mt-8 space-y-3 border-l border-black/20 pl-8">
+        <div className="mt-8 space-y-3 border-l border-black/20 pl-6 sm:pl-8">
           {timeline.map((item, index) => (
             <Reveal key={item.year} delay={index * 0.03}>
-              <div className="relative rounded-2xl border border-black/10 bg-white p-5">
-                <span className="absolute -left-[38px] top-6 h-3 w-3 rounded-full bg-[#0A84FF]" />
+              <div className="relative rounded-2xl border border-black/10 bg-white p-4 sm:p-5">
+                <span className="absolute -left-[30px] top-6 h-3 w-3 rounded-full bg-[#0A84FF] sm:-left-[38px]" />
                 <p className="text-sm text-neutral-500">{item.year}</p>
-                <p className="text-xl text-black">{item.title}</p>
+                <p className="text-lg text-black sm:text-xl">{item.title}</p>
               </div>
             </Reveal>
           ))}
@@ -35,9 +35,11 @@ export function BusinessSections() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {qualityPoints.map((point, index) => (
             <Reveal key={point} delay={index * 0.02}>
-              <div className="rounded-3xl border border-black/10 bg-white p-6 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)]">
+              <div className="rounded-3xl border border-black/10 bg-white p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:p-6">
                 <ShieldCheck className="h-5 w-5 text-[#34C759]" />
-                <p className="mt-3 text-lg text-[#1D1D1F]">{point}</p>
+                <p className="mt-3 text-base text-[#1D1D1F] sm:text-lg">
+                  {point}
+                </p>
               </div>
             </Reveal>
           ))}
@@ -52,7 +54,7 @@ export function BusinessSections() {
             description="Bulk pricing, fast delivery, original products and manufacturer warranty support."
           />
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <div className="rounded-3xl border border-black/10 bg-white p-6">
+            <div className="rounded-3xl border border-black/10 bg-white p-5 sm:p-6">
               <p className="text-sm uppercase tracking-[0.15em] text-neutral-500">
                 We Supply
               </p>
@@ -62,7 +64,7 @@ export function BusinessSections() {
                 Companies.
               </p>
             </div>
-            <div className="rounded-3xl border border-black/10 bg-white p-6">
+            <div className="rounded-3xl border border-black/10 bg-white p-5 sm:p-6">
               <p className="text-sm uppercase tracking-[0.15em] text-neutral-500">
                 Wholesale Offer
               </p>
@@ -103,7 +105,7 @@ export function BusinessSections() {
             "Inspection-ready progress reports",
           ].map((item, index) => (
             <Reveal key={item} delay={index * 0.025}>
-              <div className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(0,0,0,0.08)]">
+              <div className="flex items-start gap-3 rounded-2xl border border-black/10 bg-white p-4 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(0,0,0,0.08)] sm:items-center sm:p-5">
                 <Check className="h-4 w-4 text-[#34C759]" />
                 <span className="text-neutral-700">{item}</span>
               </div>
@@ -120,9 +122,11 @@ export function BusinessSections() {
         />
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <Reveal>
-            <div className="rounded-3xl border border-black/10 bg-white p-8 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)]">
+            <div className="rounded-3xl border border-black/10 bg-white p-6 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:p-8">
               <Sparkles className="h-5 w-5 text-[#0A84FF]" />
-              <p className="mt-4 text-2xl tracking-tight text-black">Vision</p>
+              <p className="mt-4 text-xl tracking-tight text-black sm:text-2xl">
+                Vision
+              </p>
               <p className="mt-1 text-sm font-semibold text-black">
                 స్థిరమైన అభివృద్ధికి విశ్వసనీయ మౌలిక వసతులు
               </p>
@@ -133,14 +137,16 @@ export function BusinessSections() {
             </div>
           </Reveal>
           <Reveal delay={0.05}>
-            <div className="rounded-3xl border border-black/10 bg-white p-8 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)]">
+            <div className="rounded-3xl border border-black/10 bg-white p-6 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:p-8">
               <Sparkles className="h-5 w-5 text-[#0A84FF]" />
-              <p className="mt-4 text-2xl tracking-tight text-black">Mission</p>
+              <p className="mt-4 text-xl tracking-tight text-black sm:text-2xl">
+                Mission
+              </p>
               <p className="mt-1 text-sm font-semibold text-black">
                 నాణ్యతతో ప్రజలకు నిలకడైన సేవలు అందించడం
               </p>
               <p className="mt-3 text-neutral-600">
-                Deliver resilient, safe and high-quality infrastructure with
+                Deliver resilient, safe and high quality infrastructure with
                 transparency and engineering precision.
               </p>
             </div>

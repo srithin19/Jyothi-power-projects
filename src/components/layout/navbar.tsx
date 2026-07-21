@@ -9,11 +9,11 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[70] px-6 sm:px-8">
-      <div className="mx-auto mt-2 flex h-16 w-full max-w-6xl items-center justify-between rounded-full border border-white/70 bg-white/88 px-5 shadow-[0_10px_28px_rgba(18,34,58,0.1)] backdrop-blur-2xl sm:px-6">
+    <header className="fixed inset-x-0 top-0 z-[70] px-4 sm:px-8">
+      <div className="mx-auto mt-2 flex h-14 w-full max-w-6xl items-center justify-between rounded-full border border-white/70 bg-white/88 px-4 shadow-[0_10px_28px_rgba(18,34,58,0.1)] backdrop-blur-2xl sm:h-16 sm:px-6">
         <a
           href="#top"
-          className="pr-3 text-sm font-semibold tracking-tight text-black sm:text-base"
+          className="max-w-[210px] pr-2 text-[10px] leading-none font-extrabold tracking-[0.12em] text-black uppercase sm:max-w-none sm:pr-3 sm:text-sm sm:tracking-[0.16em]"
         >
           Jyothi Power Projects
         </a>
@@ -37,7 +37,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/80 text-black transition hover:border-[#bfd4ef] hover:bg-[#eaf3ff] hover:text-[#1b2a3d] md:hidden"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white/80 text-black transition hover:border-[#bfd4ef] hover:bg-[#eaf3ff] hover:text-[#1b2a3d] md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((prev) => !prev)}
@@ -55,7 +55,7 @@ export function Navbar() {
             transition={{ duration: 0.2 }}
             className="pt-2 pb-3 md:hidden"
           >
-            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <div className="mx-auto w-full max-w-6xl px-2 sm:px-6">
               <div className="rounded-2xl border border-black/10 bg-white/95 p-2 shadow-[0_12px_30px_rgba(18,34,58,0.12)] backdrop-blur-xl">
                 {navbarLinks.map((link) => (
                   <a
