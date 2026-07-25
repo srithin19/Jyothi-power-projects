@@ -126,7 +126,13 @@
       "Bash(open http://localhost:5173)",
       "Bash(git check-ignore *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(command -v gh)",
+      "Bash(gh auth *)",
+      "Bash(git config *)",
+      "Bash(git credential *)",
+      "Bash(env)"
     ],
     "additionalDirectories": [
       "/private/tmp"
