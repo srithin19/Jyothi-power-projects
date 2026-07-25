@@ -1,100 +1,48 @@
-import { Helmet } from "react-helmet-async";
-import { lazy, Suspense } from "react";
-import { Footer } from "./components/layout/footer";
-import { Navbar } from "./components/layout/navbar";
-import { layoutClasses } from "./constants/layout";
-import { seoConfig } from "./constants/seo";
-import { HeroSection } from "./sections/hero-section";
-import { ServicesSection } from "./sections/services-section";
+import { lazy, Suspense } from 'react'
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
+import { Layout } from './components/layout/layout'
+import { HomePage } from './pages/home-page'
 
-const ProjectsSection = lazy(() =>
-  import("./sections/projects-section").then((mod) => ({
-    default: mod.ProjectsSection,
-  })),
-);
-const ImpactSection = lazy(() =>
-  import("./sections/impact-section").then((mod) => ({
-    default: mod.ImpactSection,
-  })),
-);
-const CeoSection = lazy(() =>
-  import("./sections/ceo-section").then((mod) => ({
-    default: mod.CeoSection,
-  })),
-);
-const BusinessSections = lazy(() =>
-  import("./sections/business-sections").then((mod) => ({
-    default: mod.BusinessSections,
-  })),
-);
-const TestimonialsContactSection = lazy(() =>
-  import("./sections/testimonials-contact-section").then((mod) => ({
-    default: mod.TestimonialsContactSection,
-  })),
-);
+const CategoryPage = lazy(() =>
+  import('./pages/category-page').then((m) => ({ default: m.CategoryPage })),
+)
 
-function SectionFallback() {
-  return (
-    <div className={layoutClasses.sectionFallback}>
-      <div className="h-60 animate-pulse rounded-3xl border border-black/10 bg-white/60" />
-    </div>
-  );
+/*
+  Keyed by slug so moving between two category pages remounts the component.
+
+  Without this, React reuses the same instance when only the route param
+  changes, so the page's one-shot entrance and reveal animations never re-run.
+  The new photographs would render under the global
+  `.js-reveal-ready [data-reveal] { opacity: 0 }` rule with nothing left to
+  animate them in, and the gallery came up blank.
+*/
+function CategoryRoute() {
+  const { slug } = useParams()
+  return <CategoryPage key={slug} />
 }
 
-function App() {
-  return (
-    <>
-      <Helmet>
-        <title>{seoConfig.title}</title>
-        <meta name="description" content={seoConfig.description} />
-        <meta name="keywords" content={seoConfig.keywords.join(", ")} />
-        <meta property="og:title" content={seoConfig.title} />
-        <meta property="og:description" content={seoConfig.description} />
-        <meta property="og:image" content={seoConfig.image} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={seoConfig.url} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={seoConfig.title} />
-        <meta name="twitter:description" content={seoConfig.description} />
-        <meta name="twitter:image" content={seoConfig.image} />
-        <link rel="canonical" href={seoConfig.url} />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Jyothi Power Projects",
-            email: "jyothipowerprojectshyd@gmail.com",
-            telephone: ["+91 9704340570", "+91 9849431796"],
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: "Vanasthalipuram",
-              addressRegion: "Telangana",
-              addressCountry: "IN",
-            },
-          })}
-        </script>
-      </Helmet>
+/*
+  BrowserRouter rather than HashRouter: the in-page navigation already uses hash
+  anchors (#services, #contact) for scrolling, and a hash router would fight
+  them for the same part of the URL.
 
-      <main className="page-gradient relative overflow-hidden">
-        <div className="ambient-bg" aria-hidden>
-          <div className="ambient-blob ambient-blob-one" />
-          <div className="ambient-blob ambient-blob-two" />
-          <div className="ambient-blob ambient-blob-three" />
-        </div>
-        <Navbar />
-        <HeroSection />
-        <ServicesSection />
-        <Suspense fallback={<SectionFallback />}>
-          <ProjectsSection />
-          <ImpactSection />
-          <CeoSection />
-          <BusinessSections />
-          <TestimonialsContactSection />
+  Deploying to GitHub Pages under a repo subpath needs two things, both handled:
+  basename picks up Vite's BASE_URL, and the build copies index.html to 404.html
+  so a deep link like /work/high-mast-lights is served the app rather than a
+  Pages 404.
+*/
+export default function App() {
+  return (
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <Layout>
+        <Suspense fallback={<div className="min-h-screen" aria-hidden />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/work/:slug" element={<CategoryRoute />} />
+            <Route path="*" element={<HomePage />} />
+          </Routes>
         </Suspense>
-        <Footer />
-      </main>
-    </>
-  );
+      </Layout>
+    </BrowserRouter>
+  )
 }
-
-export default App;

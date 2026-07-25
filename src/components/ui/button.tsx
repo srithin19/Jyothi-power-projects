@@ -1,55 +1,90 @@
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-import { type ButtonHTMLAttributes } from "react";
-import { cn } from "../../utils/cn";
+import { Slot } from '@radix-ui/react-slot'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { cn } from '../../utils/cn'
 
+/*
+  Solid variants carry no border and outlined variants carry no shadow. Pairing
+  a 1px border with a wide soft shadow is the "ghost card" look and it reads as
+  filler decoration rather than elevation.
+
+  Every size clears the 44px touch target.
+*/
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#AFC5E5]/70 disabled:pointer-events-none disabled:opacity-50",
+  [
+    'group relative inline-flex items-center justify-center gap-2 rounded-full',
+    'font-medium whitespace-nowrap select-none',
+    'transition-[transform,background-color,color,border-color,opacity] duration-200',
+    '[transition-timing-function:var(--ease-out)]',
+    'active:scale-[0.97]',
+    'disabled:pointer-events-none disabled:opacity-45',
+    'aria-disabled:pointer-events-none aria-disabled:opacity-45',
+  ],
   {
     variants: {
       variant: {
-        default:
-          "border border-black/20 bg-white/80 text-black backdrop-blur-xl hover:translate-y-[-1px] hover:border-[#bfd4ef] hover:bg-[#eaf3ff] hover:text-[#1b2a3d]",
+        primary: 'bg-ink text-paper hover:bg-night-soft',
         outline:
-          "border border-black/20 bg-white/80 text-black backdrop-blur-xl hover:border-[#bfd4ef] hover:bg-[#eaf3ff] hover:text-[#1b2a3d]",
+          'border border-line-strong text-ink hover:border-ink hover:bg-sunken',
+        ghost: 'text-ink-soft hover:bg-sunken hover:text-ink',
+        onDark:
+          'bg-paper text-ink hover:bg-accent-wash',
       },
       size: {
-        default: "h-12 px-6 text-sm font-medium",
-        lg: "h-14 px-8 text-base font-medium",
+        sm: 'h-11 px-5 text-sm',
+        md: 'h-12 px-6 text-[0.9375rem]',
+        lg: 'h-14 px-8 text-base',
+      },
+      block: {
+        true: 'w-full',
       },
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
+    defaultVariants: { variant: 'primary', size: 'md' },
   },
-);
+)
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-  };
+    asChild?: boolean
+    loading?: boolean
+    children?: ReactNode
+  }
 
 export function Button({
   className,
   variant,
   size,
+  block,
   asChild,
+  loading = false,
+  disabled,
+  children,
   ...props
 }: ButtonProps) {
+  const classes = cn(buttonVariants({ variant, size, block }), className)
+
   if (asChild) {
     return (
-      <Slot
-        className={cn(buttonVariants({ variant, size, className }))}
-        {...props}
-      />
-    );
+      <Slot className={classes} {...props}>
+        {children}
+      </Slot>
+    )
   }
 
   return (
     <button
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={classes}
+      disabled={disabled ?? loading}
+      aria-busy={loading || undefined}
       {...props}
-    />
-  );
+    >
+      {loading && (
+        <span
+          aria-hidden
+          className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+        />
+      )}
+      {children}
+    </button>
+  )
 }

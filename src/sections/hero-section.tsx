@@ -1,62 +1,184 @@
-import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { useRef } from 'react'
+import { ArrowRight } from 'lucide-react'
+import { company, impactStats } from '../data/siteData'
+import { gsap, prefersReducedMotion, useGSAP } from '../lib/gsap'
+import heroPhoto from '../assets/project-street-lights.webp'
+
+/*
+  The hero holds one idea, three supporting numbers and two actions, and it
+  fits a phone viewport without scrolling.
+
+  It is the one dark screen on the site: a lit road at night is the company's
+  own work and the clearest possible statement of what they do, and a dark
+  opening that gives way to paper reads far better than a photograph faded into
+  a light background, which washed out on phones.
+*/
+
+const HEADLINE = ['Engineering', 'rural progress.']
+
+// The three that mean most to a department evaluating a contractor.
+const headlineStats = impactStats.filter((s) =>
+  ['Years in operation', 'Projects delivered', 'Villages developed'].includes(
+    s.label,
+  ),
+)
 
 export function HeroSection() {
+  const scope = useRef<HTMLElement>(null)
+  const photoRef = useRef<HTMLImageElement>(null)
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return
+
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+        delay: 0.15,
+      })
+
+      // Lines rise out of their own overflow-hidden mask.
+      tl.from('[data-hero-line]', {
+        yPercent: 118,
+        duration: 1,
+        stagger: 0.09,
+      })
+        .from(
+          '[data-hero-telugu]',
+          { opacity: 0, y: 16, duration: 0.7 },
+          '-=0.62',
+        )
+        .from('[data-hero-lead]', { opacity: 0, y: 16, duration: 0.7 }, '-=0.55')
+        .from(
+          '[data-hero-action]',
+          { opacity: 0, y: 14, duration: 0.6, stagger: 0.07 },
+          '-=0.5',
+        )
+        .from(
+          '[data-hero-stat]',
+          { opacity: 0, y: 14, duration: 0.6, stagger: 0.07 },
+          '-=0.45',
+        )
+
+      if (photoRef.current) {
+        // Slow push-in behind the copy as the page opens.
+        tl.from(
+          photoRef.current,
+          { scale: 1.12, duration: 1.8, ease: 'power2.out' },
+          0,
+        )
+
+        // Drifts slower than the copy, so the two separate on scroll.
+        gsap.to(photoRef.current, {
+          yPercent: 6,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: scope.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 0.8,
+          },
+        })
+      }
+
+      gsap.to('[data-hero-inner]', {
+        y: -50,
+        opacity: 0.35,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: scope.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.6,
+        },
+      })
+    },
+    { scope },
+  )
+
   return (
     <section
+      ref={scope}
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pt-24 pb-16 sm:min-h-[72vh] sm:px-8 sm:pt-24 sm:pb-12"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden px-5 pt-28 pb-16 sm:px-8 sm:pt-32"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_0%,rgba(247,251,255,0.22)_36%,rgba(240,247,255,0.3)_72%,rgba(255,255,255,0.14)_100%)]" />
-      <div className="pointer-events-none absolute -left-16 top-1/3 h-64 w-64 rounded-full bg-[#8BC2FF]/10 blur-3xl" />
-      <div className="pointer-events-none absolute right-0 bottom-8 h-96 w-96 rounded-full bg-[#CFE4FF]/14 blur-3xl" />
+      {/*
+        Decorative: the headline already says what the company does, so this
+        carries no alt text and is hidden from assistive tech.
+      */}
+      <img
+        ref={photoRef}
+        src={heroPhoto}
+        alt=""
+        aria-hidden
+        width={900}
+        height={1200}
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 -z-20 h-full w-full object-cover object-[52%_62%]"
+      />
+      <div className="hero-scrim absolute inset-0 -z-10" aria-hidden />
 
-      <div className="relative mx-auto w-full max-w-6xl">
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-3 py-1.5 text-[10px] tracking-[0.16em] text-neutral-600 uppercase backdrop-blur-xl sm:mb-8 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.2em]"
+      <div data-hero-inner className="mx-auto w-full max-w-6xl">
+        <h1 className="text-display leading-[0.98] font-semibold tracking-[-0.035em] text-paper">
+          {HEADLINE.map((line) => (
+            <span key={line} className="block overflow-hidden pb-[0.08em]">
+              <span data-hero-line className="block">
+                {line}
+              </span>
+            </span>
+          ))}
+        </h1>
+
+        <p
+          data-hero-telugu
+          className="font-telugu mt-7 max-w-2xl text-lg text-paper/85 sm:mt-9 sm:text-xl md:text-2xl"
         >
-          <Sparkles size={14} />
-          Trusted Government Infrastructure Partner
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.06 }}
-          className="max-w-5xl text-3xl leading-[1.08] tracking-[-0.03em] text-[#1D1D1F] sm:text-5xl sm:leading-[1.04] sm:tracking-[-0.04em] md:text-6xl lg:text-[84px]"
+          {company.teluguTagline}
+        </p>
+
+        <p
+          data-hero-lead
+          className="mt-6 max-w-[48ch] text-lead leading-[1.6] text-paper/75"
         >
-          Engineering Rural Progress.
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="telugu-title mt-4 text-base text-black sm:mt-5 sm:text-xl md:text-2xl"
-        >
-          గ్రామాభివృద్ధికి నమ్మకమైన ఇంజనీరింగ్ భాగస్వామ్యం
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.14 }}
-          className="mt-6 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:hidden"
-        >
-          20+ years of trusted government infrastructure execution across
-          Telangana.
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.14 }}
-          className="mt-8 hidden max-w-3xl text-sm leading-relaxed text-neutral-600 sm:block sm:text-base md:text-lg"
-        >
-          Jyothi Power Projects is one of Telangana's trusted infrastructure
-          development and electrical engineering companies with 20+ years of
-          expertise in government project execution.
-        </motion.p>
+          Fifteen years of government infrastructure execution across Telangana,
+          delivered to public standards and handed over on commitment.
+        </p>
+
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a
+            data-hero-action
+            href="#contact"
+            className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-paper px-7 text-[0.9375rem] font-medium text-ink transition-[transform,background-color] duration-200 [transition-timing-function:var(--ease-out)] hover:bg-accent-wash active:scale-[0.97]"
+          >
+            Start a project
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 [transition-timing-function:var(--ease-out)] group-hover:translate-x-0.5" />
+          </a>
+          <a
+            data-hero-action
+            href="#projects"
+            className="inline-flex h-13 items-center justify-center rounded-full border border-paper/35 px-7 text-[0.9375rem] font-medium text-paper backdrop-blur-sm transition-[transform,border-color,background-color] duration-200 [transition-timing-function:var(--ease-out)] hover:border-paper/70 hover:bg-paper/10 active:scale-[0.97]"
+          >
+            See our work
+          </a>
+        </div>
+
+        <dl className="mt-12 grid max-w-2xl grid-cols-3 gap-6 border-t border-paper/20 pt-8 sm:gap-10">
+          {headlineStats.map((stat) => (
+            <div data-hero-stat key={stat.label}>
+              <dt className="sr-only">{stat.label}</dt>
+              <dd>
+                <span className="block text-2xl font-semibold tracking-[-0.02em] text-paper sm:text-3xl">
+                  {stat.value.toLocaleString('en-IN')}
+                  {stat.suffix}
+                </span>
+                <span className="mt-1 block text-[0.8125rem] leading-snug text-paper/65">
+                  {stat.label}
+                </span>
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
-  );
+  )
 }

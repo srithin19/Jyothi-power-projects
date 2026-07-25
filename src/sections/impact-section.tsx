@@ -1,68 +1,90 @@
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { impactStats } from "../data/siteData";
-import { Reveal } from "../components/ui/reveal";
-import { SectionHeading } from "../components/ui/section-heading";
-import { SectionShell } from "../components/ui/section-shell";
+import { useRef } from 'react'
+import { impactStats } from '../data/siteData'
+import { Card } from '../components/ui/card'
+import { Section, SectionIntro } from '../components/ui/section'
+import { gsap, prefersReducedMotion, useGSAP } from '../lib/gsap'
+import { useReveal } from '../hooks/use-reveal'
 
+/*
+  Counters run off a GSAP tween of a plain object rather than React state, so
+  the numbers update by writing textContent directly. Sixty state commits a
+  second across six stats is a lot of reconciliation for an effect nobody can
+  interact with.
+*/
 export function ImpactSection() {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
-  const [animatedValues, setAnimatedValues] = useState<number[]>(
-    impactStats.map(() => 0),
-  );
+  const scope = useReveal<HTMLElement>()
+  const numbersRef = useRef<(HTMLSpanElement | null)[]>([])
 
-  useEffect(() => {
-    if (!inView) {
-      return;
-    }
+  useGSAP(
+    () => {
+      const format = (n: number) => Math.floor(n).toLocaleString('en-IN')
 
-    const duration = 2200;
-    const start = performance.now();
-    let frameId = 0;
+      impactStats.forEach((stat, i) => {
+        const el = numbersRef.current[i]
+        if (!el) return
 
-    const tick = (now: number) => {
-      const elapsed = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - elapsed, 3);
+        if (prefersReducedMotion()) {
+          el.textContent = format(stat.value)
+          return
+        }
 
-      setAnimatedValues(
-        impactStats.map((stat) => Math.floor(stat.value * eased)),
-      );
-
-      if (elapsed < 1) {
-        frameId = requestAnimationFrame(tick);
-      }
-    };
-
-    frameId = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, [inView]);
+        const counter = { value: 0 }
+        gsap.to(counter, {
+          value: stat.value,
+          duration: 2,
+          ease: 'power2.out',
+          onUpdate: () => {
+            el.textContent = format(counter.value)
+          },
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        })
+      })
+    },
+    { scope },
+  )
 
   return (
-    <SectionShell id="impact" ref={ref}>
-      <SectionHeading
-        eyebrow="Impact"
-        title="Measured outcomes across villages, communities and public systems."
-        teluguTitle="గ్రామాలు, సమాజం, ప్రజా వ్యవస్థలపై కొలిచే ప్రభావం"
-        description="Two decades of execution translated into reliable numbers that demonstrate scale and trust."
+    <Section ref={scope} id="impact">
+      <SectionIntro
+        title="Measured outcomes across villages and public systems."
+        telugu="గ్రామాలు, సమాజం, ప్రజా వ్యవస్థలపై కొలిచే ప్రభావం"
+        lead="Fifteen years of execution, expressed in the numbers a department can verify."
       />
-      <div className="mt-6 grid gap-3 sm:mt-8 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {impactStats.map((stat, idx) => (
-          <Reveal key={stat.label} delay={idx * 0.025}>
-            <div className="rounded-2xl border border-black/10 bg-white p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:rounded-3xl sm:p-8">
-              <p className="text-2xl font-semibold tracking-tight text-black sm:text-4xl lg:text-5xl">
-                {(inView ? animatedValues[idx] : 0).toLocaleString("en-IN")}
-                {stat.suffix}
-              </p>
-              <p className="mt-2 text-xs uppercase tracking-[0.14em] text-neutral-500 sm:mt-3 sm:text-sm sm:tracking-[0.16em]">
+
+      {/*
+        One column, one row per figure, held inside a single card. Numbers are
+        right-aligned and tabular so every digit and suffix stacks on one
+        vertical edge.
+
+        The dividers are the page's one remaining rule set: this is a table of
+        figures, which is the case where a line between rows is doing real work
+        rather than decorating.
+      */}
+      <Card padding="none" className="mt-12 max-w-4xl px-6 sm:px-9">
+        <dl>
+          {impactStats.map((stat, i) => (
+            <div
+              key={stat.label}
+              data-reveal
+              className="flex items-baseline justify-between gap-6 py-5 not-last:border-b not-last:border-line/70 sm:py-7"
+            >
+              <dt className="text-[0.9375rem] leading-snug text-muted sm:text-base">
                 {stat.label}
-              </p>
+              </dt>
+              <dd className="shrink-0 text-[clamp(1.75rem,4.5vw,3rem)] leading-none font-semibold tracking-[-0.03em] text-ink tabular-nums">
+                <span
+                  ref={(el) => {
+                    numbersRef.current[i] = el
+                  }}
+                >
+                  0
+                </span>
+                <span className="text-accent-strong">{stat.suffix}</span>
+              </dd>
             </div>
-          </Reveal>
-        ))}
-      </div>
-    </SectionShell>
-  );
+          ))}
+        </dl>
+      </Card>
+    </Section>
+  )
 }

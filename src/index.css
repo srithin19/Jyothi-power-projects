@@ -1,160 +1,344 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
+/*
+  Jyothi Power Projects - design tokens.
+
+  Surface strategy: this page is read in daylight by government officers on
+  desktop and by rural stakeholders on mid-range Android phones in direct sun.
+  A paper-light surface wins on legibility and reads as official record, so the
+  whole system is ink-on-paper.
+
+  Accent strategy: every electrical contractor defaults to blue with a safety
+  green. Amber is the light this company actually installs, so it carries the
+  accent alone. There is no second accent.
+*/
+
+@theme {
+  /*
+    Two distinct surfaces, not one.
+
+    `canvas` is the tinted page behind everything and `surface` is the near
+    white a card is made of. The gap between them is what makes a card read as
+    a card, which means cards need no border and no heavy shadow to separate
+    from the page. `paper` stays near white for text sitting on dark bands.
+  */
+  --color-canvas: oklch(0.955 0.008 254);
+  --color-surface: oklch(0.995 0.0015 250);
+  --color-paper: oklch(0.99 0.002 250);
+  --color-sunken: oklch(0.935 0.009 254);
+  --color-ink: oklch(0.2 0.012 250);
+  --color-ink-soft: oklch(0.37 0.012 250);
+  --color-muted: oklch(0.5 0.012 250);
+  --color-line: oklch(0.905 0.006 250);
+  --color-line-strong: oklch(0.82 0.008 250);
+
+  /* Inverted surface for the one dark band on the page. */
+  --color-night: oklch(0.19 0.014 255);
+  --color-night-soft: oklch(0.27 0.014 255);
+
+  /* Sodium amber. -strong is the text-safe step (>= 5:1 on paper). */
+  --color-accent: oklch(0.76 0.145 68);
+  --color-accent-strong: oklch(0.47 0.108 58);
+  --color-accent-wash: oklch(0.96 0.03 75);
+
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+    'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
+  --font-telugu: 'Noto Sans Telugu', 'Nirmala UI', 'Gautami', sans-serif;
+
+  /* Display tops out at 88px, under the 96px ceiling. */
+  --text-display: clamp(2.5rem, 7.2vw, 5.5rem);
+  --text-h2: clamp(1.75rem, 4vw, 3rem);
+  --text-h3: clamp(1.375rem, 2.4vw, 1.875rem);
+  --text-lead: clamp(1rem, 1.4vw, 1.1875rem);
+
+  --radius-card: 1rem;
+  --radius-inset: 0.75rem;
+
+  /*
+    Soft and close to the surface. Cards are separated from the page by their
+    own lighter fill, so the shadow only has to lift them a little. No border
+    accompanies these: a 1px border under a wide shadow is the ghost-card look.
+  */
+  --shadow-card: 0 1px 2px oklch(0.2 0.02 255 / 0.04),
+    0 6px 16px oklch(0.2 0.02 255 / 0.05);
+  --shadow-card-hover: 0 2px 4px oklch(0.2 0.02 255 / 0.05),
+    0 12px 28px oklch(0.2 0.02 255 / 0.09);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
 :root {
-  --black: #000000;
-  --secondary: #111111;
-  --background: #f8f8f8;
-  --accent: #0a84ff;
-  --text: #1d1d1f;
-  --light-gray: #ececec;
-  --dark-gray: #444444;
-  --white: #ffffff;
-  --success: #34c759;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Semantic z-scale. Nothing on this page needs 999. */
+  --z-sticky: 40;
+  --z-nav: 50;
+  --z-overlay: 60;
 }
 
-* {
-  box-sizing: border-box;
+/*
+  Everything below MUST stay inside a @layer.
+
+  Tailwind v4 puts its utilities in the `utilities` layer, and unlayered CSS
+  outranks every layered rule regardless of specificity. An unlayered
+  `a { color: inherit }` therefore beats `.text-paper`, which silently rendered
+  ink-on-ink text inside the dark call-to-action buttons. Same trap applies to
+  `img { display: block }` versus display utilities.
+*/
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /*
+    The navbar is fixed, so a jump to #contact would otherwise park that
+    section's heading underneath it. The in-page nav compensates in JS, but a
+    shared link, a browser back/forward restore, or a find-in-page jump does
+    not go through that code.
+  */
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Headings tighten as they grow; body prose stays readable. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  p {
+    text-wrap: pretty;
+    margin: 0;
+  }
+
+  /* One focus treatment page-wide, never removed without a replacement. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-strong);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-accent-wash);
+    color: var(--color-ink);
+  }
 }
 
-html,
-body,
-#root {
-  width: 100%;
-  min-height: 100%;
+@layer components {
+  /*
+    Lenis drives scrolling, so native smooth-scroll must stay off or the two
+    fight each other on anchor navigation.
+  */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .font-telugu {
+    font-family: var(--font-telugu);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+@layer components {
+  /*
+    Page wash. A warm bloom at the top of the page falling away to cool paper,
+    read as lamplight rather than decoration: this company installs street
+    lighting, so warm light entering from above is the one gradient that means
+    something here.
+
+    Chroma is kept very low (0.03 and under). Anything stronger turns the body
+    copy grey-on-tint, which is the most common contrast failure in a design
+    like this.
+  */
+  .page-wash {
+    background:
+      /* warm lamplight entering from above */
+      radial-gradient(
+        120% 60% at 50% -10%,
+        oklch(0.93 0.055 76 / 0.85),
+        transparent 60%
+      ),
+      /* second, cooler pool low and left so the page is not one flat tint */
+        radial-gradient(
+          75% 50% at 8% 62%,
+          oklch(0.92 0.035 245 / 0.6),
+          transparent 62%
+        ),
+      radial-gradient(
+        70% 45% at 96% 32%,
+        oklch(0.94 0.04 62 / 0.55),
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        oklch(0.975 0.008 254) 0%,
+        oklch(0.955 0.009 254) 42%,
+        oklch(0.945 0.01 254) 100%
+      );
+  }
+
+  /*
+    Hero photograph, faded out with a mask rather than covered by a coloured
+    overlay. Masking dissolves the image into whatever is behind it, so it
+    blends with the page wash instead of needing a flat colour matched to it.
+
+    Phone: fades in low, below the copy. Desktop: fades in from the left, so
+    the headline keeps clean paper and the empty right half carries the image.
+  */
+  /*
+    Hero scrim.
+
+    Two layers: a bottom-up ramp that anchors the copy, and a left-side ramp so
+    the headline keeps a dark field on wide screens while the lit road stays
+    visible on the right. Strong enough that paper-white text clears contrast
+    minimums over the brightest part of the photograph.
+  */
+  .hero-scrim {
+    background:
+      linear-gradient(
+        180deg,
+        oklch(0.17 0.02 255 / 0.72) 0%,
+        oklch(0.15 0.02 255 / 0.58) 42%,
+        oklch(0.13 0.02 255 / 0.88) 100%
+      ),
+      linear-gradient(
+        90deg,
+        oklch(0.13 0.02 255 / 0.72) 0%,
+        oklch(0.13 0.02 255 / 0.35) 55%,
+        transparent 100%
+      );
+  }
+
+  /*
+    Scrim for text sitting on a photograph. Two stops rather than a flat wash so
+    the image still reads as an image on the side away from the copy.
+  */
+  .photo-scrim {
+    background: linear-gradient(
+      100deg,
+      oklch(0.16 0.018 255 / 0.94) 0%,
+      oklch(0.16 0.018 255 / 0.86) 42%,
+      oklch(0.16 0.018 255 / 0.62) 100%
+    );
+  }
+
+  /*
+    Reveal primitive. Elements start hidden only once JS confirms it will drive
+    them, so a failed bundle or a crawler still sees the full page.
+  */
+  /*
+    will-change lives on the hidden state only, and the reveal tween sets it
+    back to auto when it completes. Left on permanently it pins every revealed
+    element to its own compositor layer, which adds up on the gallery pages.
+  */
+  .js-reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    will-change: transform, opacity;
+  }
+
+  /*
+    The track holds two copies of the brand list, so translating exactly -50%
+    lands on the start of the second copy and the loop is seamless.
+  */
+  .marquee-track {
+    animation: marquee 42s linear infinite;
+  }
+
+  .marquee-mask:hover .marquee-track,
+  .marquee-track:focus-within {
+    animation-play-state: paused;
+  }
+
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
 }
 
-body {
-  margin: 0;
-  font-family: 'SF Pro Display', Inter, Manrope, 'Segoe UI', sans-serif;
-  color: var(--text);
-  background: var(--background);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
-
-.page-gradient {
-  background:
-    radial-gradient(circle at 14% 12%, rgba(150, 200, 255, 0.12), transparent 40%),
-    radial-gradient(circle at 88% 4%, rgba(255, 255, 255, 0.96), transparent 36%),
-    radial-gradient(circle at 72% 68%, rgba(170, 214, 255, 0.1), transparent 44%),
-    linear-gradient(180deg, #ffffff 0%, #f9fcff 36%, #f4f9ff 72%, #ffffff 100%);
-}
-
-.ambient-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.ambient-blob {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(85px);
-  opacity: 0.28;
-  will-change: transform;
-}
-
-.ambient-blob-one {
-  top: 16%;
-  left: -8%;
-  width: 360px;
-  height: 360px;
-  background: rgba(125, 184, 255, 0.36);
-  animation: ambient-float-1 18s ease-in-out infinite;
-}
-
-.ambient-blob-two {
-  top: 48%;
-  right: -10%;
-  width: 420px;
-  height: 420px;
-  background: rgba(176, 215, 255, 0.3);
-  animation: ambient-float-2 20s ease-in-out infinite;
-}
-
-.ambient-blob-three {
-  bottom: 8%;
-  left: 22%;
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 255, 255, 0.5);
-  animation: ambient-float-3 22s ease-in-out infinite;
-}
-
-main > *:not(.ambient-bg) {
-  position: relative;
-  z-index: 1;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.marquee-track {
-  overflow: hidden;
-  width: 100%;
-}
-
-.marquee-content {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll 28s linear infinite;
-}
-
-.marquee-track:hover .marquee-content {
-  animation-play-state: paused;
-}
-
-.telugu-title {
-  font-family: 'Noto Sans Telugu', 'Nirmala UI', 'Gautami', sans-serif;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.35;
-}
-
-@keyframes marquee-scroll {
-  0% {
+@keyframes marquee {
+  from {
     transform: translate3d(0, 0, 0);
   }
-  100% {
+  to {
     transform: translate3d(-50%, 0, 0);
   }
 }
 
-@keyframes ambient-float-1 {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
+/*
+  Motion is decoration on top of a page that already works. Strip it entirely
+  when the user has asked for that, keeping content visible.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
-  50% {
-    transform: translate3d(36px, -24px, 0) scale(1.08);
-  }
-}
 
-@keyframes ambient-float-2 {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-48px, 26px, 0) scale(1.05);
-  }
-}
-
-@keyframes ambient-float-3 {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(18px, -36px, 0) scale(1.12);
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
