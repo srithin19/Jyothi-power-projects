@@ -18,14 +18,11 @@ export function Navbar() {
   const headerRef = useRef<HTMLElement>(null)
 
   /*
-    Only the home page opens on the dark hero photograph. Everywhere else the
-    bar sits on paper from the first pixel, so it must not invert or its links
-    would render white on near-white.
-
-    `solid` is the paper pill treatment; `onDark` is the inverted one.
+    The whole site opens on paper now, hero included, so the bar keeps ink
+    text everywhere. `solid` only controls the chrome: transparent while the
+    page is at the top, condensing into the blurred paper pill on scroll.
   */
-  const onDark = isHome && !scrolled
-  const solid = !onDark
+  const solid = !isHome || scrolled
 
   /*
     Most sections are lazy-loaded behind a Suspense boundary, so at first mount
@@ -141,11 +138,6 @@ export function Navbar() {
           'mx-auto mt-3 flex w-full max-w-6xl items-center justify-between gap-4 rounded-full px-4 sm:px-6',
           'transition-[height,background-color,border-color] duration-300',
           '[transition-timing-function:var(--ease-out)]',
-          /*
-            The hero is dark, so at the top the bar sits on a photograph and
-            has to invert. Once it condenses it is over paper again and goes
-            back to ink.
-          */
           solid
             ? 'h-[52px] border border-line bg-paper/85 backdrop-blur-xl'
             : 'h-[60px] border border-transparent bg-transparent',
@@ -154,10 +146,7 @@ export function Navbar() {
         <a
           href="#top"
           onClick={handleNav('#top')}
-          className={cn(
-            'text-[0.8125rem] leading-tight font-semibold tracking-[-0.01em] transition-colors duration-300 sm:text-sm',
-            solid ? 'text-ink' : 'text-paper',
-          )}
+          className="text-[0.8125rem] leading-tight font-semibold tracking-[-0.01em] text-ink sm:text-sm"
         >
           {company.name}
         </a>
@@ -173,13 +162,7 @@ export function Navbar() {
                 aria-current={isActive ? 'true' : undefined}
                 className={cn(
                   'relative rounded-full px-3.5 py-2 text-sm transition-colors duration-200',
-                  solid
-                    ? isActive
-                      ? 'text-ink'
-                      : 'text-muted hover:text-ink'
-                    : isActive
-                      ? 'text-paper'
-                      : 'text-paper/70 hover:text-paper',
+                  isActive ? 'text-ink' : 'text-muted hover:text-ink',
                 )}
               >
                 {link.label}
@@ -187,10 +170,7 @@ export function Navbar() {
                   <motion.span
                     layoutId="nav-active"
                     aria-hidden
-                    className={cn(
-                      'absolute inset-x-3.5 -bottom-0.5 h-px',
-                      solid ? 'bg-accent-strong' : 'bg-accent',
-                    )}
+                    className="absolute inset-x-3.5 -bottom-0.5 h-px bg-accent-strong"
                     transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                   />
                 )}
@@ -203,12 +183,7 @@ export function Navbar() {
           <a
             href="#contact"
             onClick={handleNav('#contact')}
-            className={cn(
-              'inline-flex h-10 items-center rounded-full px-5 text-sm font-medium transition-[transform,background-color,color] duration-300 [transition-timing-function:var(--ease-out)] active:scale-[0.97]',
-              solid
-                ? 'bg-ink text-paper hover:bg-night-soft'
-                : 'bg-paper text-ink hover:bg-accent-wash',
-            )}
+            className="inline-flex h-10 items-center rounded-full bg-ink px-5 text-sm font-medium text-paper transition-[transform,background-color] duration-300 [transition-timing-function:var(--ease-out)] hover:bg-night-soft active:scale-[0.97]"
           >
             Start a project
           </a>
@@ -216,10 +191,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className={cn(
-            'inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 md:hidden',
-            solid ? 'text-ink hover:bg-sunken' : 'text-paper hover:bg-paper/15',
-          )}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors duration-300 hover:bg-sunken md:hidden"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           aria-controls="mobile-nav"

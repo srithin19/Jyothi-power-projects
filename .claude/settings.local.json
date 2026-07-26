@@ -13,7 +13,20 @@
       "Bash(node \"/private/tmp/claude-501/-Users-srithinchillamcharla-Desktop-Jyothi-power-projecrs/e75efa9d-54cf-4b0e-aba1-0535a7a1e437/scratchpad/optimize.mjs\" src/assets)",
       "Bash(cp \"/private/tmp/claude-501/-Users-srithinchillamcharla-Desktop-Jyothi-power-projecrs/e75efa9d-54cf-4b0e-aba1-0535a7a1e437/scratchpad/optimize.mjs\" ./_opt.mjs)",
       "Bash(node ./_opt.mjs src/assets)",
-      "Bash(rm -f ./_opt.mjs)"
+      "Bash(rm -f ./_opt.mjs)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --hide-scrollbars --virtual-time-budget=6000 --window-size=390,844 --screenshot=hero-mobile.png http://localhost:5175/)",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless=old --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --virtual-time-budget=6000 --window-size=390,844 --screenshot=hero-390.png http://localhost:5175/)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --allow-file-access-from-files --virtual-time-budget=7000 --window-size=390,844 --screenshot=frame390.png file://__TRACKED_VAR__/frame.html)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --force-prefers-reduced-motion --virtual-time-budget=8000 --window-size=390,844 --screenshot=frame390b.png file://__TRACKED_VAR__/frame.html)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --force-prefers-reduced-motion --virtual-time-budget=8000 --window-size=375,667 --screenshot=shot375b.png file://__TRACKED_VAR__/fr375.html)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --force-prefers-reduced-motion --virtual-time-budget=8000 --window-size=390,1300 --screenshot=frtall.png file://__TRACKED_VAR__/frtall.html)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --force-prefers-reduced-motion --virtual-time-budget=9000 --window-size=390,844 --screenshot=frhash.png file://__TRACKED_VAR__/frhash.html)",
+      "Bash(npm run *)",
+      "Bash(xargs kill)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --force-prefers-reduced-motion --virtual-time-budget=8000 --window-size=390,844 --screenshot=light390.png file://__TRACKED_VAR__/fr390.html)",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --hide-scrollbars --force-prefers-reduced-motion --virtual-time-budget=7000 --window-size=1440,900 --screenshot=desk2.png http://localhost:5175/)"
     ]
   }
 }

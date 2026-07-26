@@ -224,35 +224,67 @@
   }
 
   /*
-    Hero photograph, faded out with a mask rather than covered by a coloured
-    overlay. Masking dissolves the image into whatever is behind it, so it
-    blends with the page wash instead of needing a flat colour matched to it.
+    Hero veil: canvas-coloured gradients laid over the night photograph so it
+    dissolves into the light page instead of opening the site as a dark block.
 
-    Phone: fades in low, below the copy. Desktop: fades in from the left, so
-    the headline keeps clean paper and the empty right half carries the image.
-  */
-  /*
-    Hero scrim.
+    Phone: the same idea as desktop, turned through ninety degrees. Desktop
+    clears the photo out of the left third; a 390px screen has no left third,
+    so the phone clears it out of the TOP third instead - the copy is anchored
+    to the bottom of the viewport and the band above it is left almost
+    uncovered, which is where the lamp and the receding line of lights are.
+    Under the copy the wash stops at 0.82 rather than 0.94: enough to carry
+    ink, light enough that the road still shows through it. The old flat 0.86
+    wash covered the whole height and erased the photograph.
 
-    Two layers: a bottom-up ramp that anchors the copy, and a left-side ramp so
-    the headline keeps a dark field on wide screens while the lit road stays
-    visible on the right. Strong enough that paper-white text clears contrast
-    minimums over the brightest part of the photograph.
+    Desktop: unchanged. The left third stays clean paper for the headline, the
+    photo comes through on the right, and the top and bottom ramps blend it
+    into the navbar zone and the section below.
   */
-  .hero-scrim {
+  .hero-veil {
     background:
+      /* navbar zone stays paper, so the bar keeps its ink text */
       linear-gradient(
         180deg,
-        oklch(0.17 0.02 255 / 0.72) 0%,
-        oklch(0.15 0.02 255 / 0.58) 42%,
-        oklch(0.13 0.02 255 / 0.88) 100%
+        oklch(0.955 0.008 254 / 0.97) 0,
+        oklch(0.955 0.008 254 / 0.72) 52px,
+        oklch(0.955 0.008 254 / 0) 150px
       ),
-      linear-gradient(
-        90deg,
-        oklch(0.13 0.02 255 / 0.72) 0%,
-        oklch(0.13 0.02 255 / 0.35) 55%,
-        transparent 100%
-      );
+      /*
+        Stops in pixels from the BOTTOM, not percentages, because the copy is
+        anchored to the bottom: percentages put the headline in the clear zone
+        on a 667px phone and the ink went unreadable over the night sky. This
+        way paper always reaches above the last line of copy, and it is the
+        window that shrinks on a short screen rather than the legibility.
+      */
+        linear-gradient(
+          0deg,
+          oklch(0.955 0.008 254 / 0.97) 0,
+          oklch(0.955 0.008 254 / 0.85) 32px,
+          oklch(0.955 0.008 254 / 0.8) 500px,
+          oklch(0.955 0.008 254 / 0.46) 580px,
+          oklch(0.955 0.008 254 / 0.1) 660px
+        );
+  }
+
+  @media (min-width: 768px) {
+    .hero-veil {
+      background:
+        /* navbar zone stays paper */
+        linear-gradient(
+          180deg,
+          oklch(0.955 0.008 254 / 0.95) 0%,
+          oklch(0.955 0.008 254 / 0) 24%
+        ),
+        /* blend into the next section */
+        linear-gradient(0deg, oklch(0.955 0.008 254) 0%, oklch(0.955 0.008 254 / 0) 16%),
+        /* clean paper under the headline, photo softened on the right */
+        linear-gradient(
+          90deg,
+          oklch(0.955 0.008 254) 36%,
+          oklch(0.955 0.008 254 / 0.66) 56%,
+          oklch(0.955 0.008 254 / 0.34) 82%
+        );
+    }
   }
 
   /*
