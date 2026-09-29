@@ -1,4 +1,4 @@
-# Jyothi Power Projects Website
+# Jyothi Power Projects Website "jyothi-power-projects.vercel.app"
 
 Premium React + Vite marketing website for Jyothi Power Projects with reusable components, Telugu + English content, and performance-focused animations.
 
